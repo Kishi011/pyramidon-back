@@ -1,0 +1,24 @@
+{
+  "name": "pyramidon-back",
+  "version": "1.0.0",
+  "description": "back end do pyramidon",
+  "main": "./index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Vinicius M. Stuani",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^5.1.0",
+    "pyramidon-back": "file:",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
