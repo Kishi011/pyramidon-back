@@ -13,8 +13,10 @@
   "author": "Vinicius M. Stuani",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.5.0",
     "esm": "^3.2.25",
     "express": "^5.1.0",
+    "pg": "^8.16.0",
     "pyramidon-back": "file:",
     "sequelize": "^6.37.7"
   },
