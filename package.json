@@ -13,6 +13,7 @@
   "author": "Vinicius M. Stuani",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "esm": "^3.2.25",
     "express": "^5.1.0",
