@@ -1,7 +1,7 @@
-import route from './template.js';
+import marketingRoutes from "./marketingRoutes.js";
 
 function Routes(app) {
-  route(app);
+  marketingRoutes(app);
 }
 
 export default Routes;

@@ -4,6 +4,8 @@ import routes from './routes/index.js';
 const app = express();
 const porta = 3333;
 
+app.use(express.json());
+
 routes(app);
 
 app.use((_, res) => {
@@ -11,5 +13,5 @@ app.use((_, res) => {
 });
 
 app.listen(porta, () => {
-  console.log(`Sistema de Estágios running in ${porta}`);
+  console.log(`Sistema de Estágios rodando na porta ${porta}`);
 });
