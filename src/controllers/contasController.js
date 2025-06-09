@@ -40,14 +40,13 @@ const get = async (req, res) => {
 };
 
 const create = async (dados, res) => {
-  const { nome, email, chave_crypto, password, role} = dados;
+  const { nome, email, chave_crypto, password } = dados;
 
   const response = await Contas.create({
     nome,
     email,
-    chave_crypto,
     password,
-    role,
+    chave_crypto,
   });
 
   return res.status(200).send({
