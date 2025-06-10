@@ -11,22 +11,26 @@ const Marketing = sequelize.define(
       primaryKey: true,
       unique: true,
     },
-    nome_rede_social: {
+    nomeRedeSocial: {
       type: DataTypes.STRING(20),
       allowNull: false,
+      field: 'nome_rede_social',
     },
-    nome_perfil: {
+    nomePerfil: {
       type: DataTypes.STRING(30),
       allowNull: false,
+      field: 'nome_perfil',
     },
-    arroba_perfil: {
+    arrobaPerfil: {
       type: DataTypes.STRING(30),
       allowNull: false,
       unique: true,
+      field: 'arroba_perfil',
     },
-    link_acesso: {
+    linkAcesso: {
       type: DataTypes.STRING(255),
       allowNull: true,
+      field: 'link_acesso',
     },
     responsavel: {
       type: DataTypes.BIGINT,

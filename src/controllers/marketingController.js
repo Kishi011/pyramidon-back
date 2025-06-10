@@ -41,18 +41,18 @@ const get = async (req, res) => {
 
 const create = async (dados, res) => {
   const {
-    nome_rede_social,
-    nome_perfil,
-    arroba_perfil,
-    link_acesso,
+    nomeRedeSocial,
+    nomePerfil,
+    arrobaPerfil,
+    linkAcesso,
     responsavel,
   } = dados;
 
   const response = await Marketing.create({
-    nome_rede_social,
-    nome_perfil,
-    arroba_perfil,
-    link_acesso,
+    nomeRedeSocial,
+    nomePerfil,
+    arrobaPerfil,
+    linkAcesso,
     responsavel,
   });
 
