@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 const porta = 3333;
 
-app.use(cors());  
+app.use(cors());
 
 app.use(express.json());
 
@@ -16,5 +16,5 @@ app.use((_, res) => {
 });
 
 app.listen(porta, () => {
-  console.log(`Sistema de Estágios rodando na porta ${porta}`);
+  console.log(`Sistema do Pyramidon rodando na porta ${porta}`);
 });
