@@ -18,16 +18,13 @@ const Contas = sequelize.define(
     email: {
       type: DataTypes.TEXT,
       allowNull: true,
-    },
-    chave_crypto: {
+    },    
+    senha: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    role: {
+    chaveCrypto: {
+      field: 'chave_crypto',
       type: DataTypes.TEXT,
       allowNull: true,
     },
