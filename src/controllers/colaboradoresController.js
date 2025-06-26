@@ -1,3 +1,4 @@
+import OrganizacaoColaboradores from '../models/organizacaoColaboradores.js';
 import Colaboradores from '../models/colaboradores.js';
 
 const get = async (req, res) => {
@@ -41,7 +42,7 @@ const get = async (req, res) => {
 
 const create = async (dados, res) => {
     const {
-        nome_colaboradores,
+        nome,
         email,
         cpf,
         telefone,
@@ -54,7 +55,7 @@ const create = async (dados, res) => {
     } = dados;
 
     const response = await Colaboradores.create({
-        nome_colaboradores,
+        nome,
         email,
         cpf,
         telefone,
@@ -148,8 +149,117 @@ const destroy = async (req, res) => {
     }
 };
 
+const getColaboradoresOrganizacao = async (req, res) => {
+    try {
+        const idOrganizacao = req.params.idOrganizacao ? req.params.idOrganizacao.toString().replace(/\D/g, '') : null;
+
+        if (!idOrganizacao) {
+            return res.status(500).send({
+                type: 'error',
+                message: 'Ops! Ocorreu um erro',
+                error: error.message,
+            });
+        }
+
+        const organizacaoColaboradores = await OrganizacaoColaboradores.findAll({ where: { idOrganizacao }});
+
+        if(!organizacaoColaboradores.length) {
+            return res.status(200).send({
+                type: 'success',
+                message: 'Nenhum registro encontrado',
+                data: [],
+            });
+        }
+
+        const response = [];
+        for(let i = 0; i < organizacaoColaboradores.length; i++) {
+            const colaborador = await Colaboradores.findOne({ where: { id: organizacaoColaboradores[i].idColaborador } });
+            response.push(colaborador);
+        }
+
+        return res.status(200).send({
+            type: 'success',
+            message: 'Registros carregados com sucesso',
+            data: response,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'Ops! Ocorreu um erro',
+            error: error.message,
+        });
+    }
+};
+
+const criaColaborador = async (req, res) => {
+    try {
+        const idOrganizacao = req.params.idOrganizacao ? req.params.idOrganizacao.toString().replace(/\D/g, '') : null;
+    
+        if(!idOrganizacao) {
+            return res.status(500).send({
+                type: 'error',
+                message: 'Ops! Ocorreu um erro',
+            });
+        }
+    
+        const {
+            cpf,
+            nome,
+            email,
+            telefone,
+            cep,
+            banco,
+            numeroCartao,
+            senhaCartao,
+            senhaSeguranca,
+            dataVencimentoCartao,
+        } = req.body;
+    
+        const response = await Colaboradores.create({
+            cpf,
+            nome,
+            email,
+            telefone,
+            cep,
+            banco,
+            numeroCartao,
+            senhaCartao: parseInt(senhaCartao),
+            senhaSeguranca: parseInt(senhaSeguranca),
+            dataVencimentoCartao,
+        });
+    
+        const organizacaoColaboradores = await OrganizacaoColaboradores.create({
+            idOrganizacao,
+            idColaborador: response.id,
+        });
+    
+        if(!organizacaoColaboradores) {
+            await response.destroy();
+    
+            return res.status(500).send({
+                type: 'error',
+                message: 'Ocorreu um erro ao criar colaborador!',
+            });
+        }
+    
+        return res.status(200).send({
+            type: 'success',
+            message: 'Cadastro realizado com sucesso',
+            data: response,
+        });
+    } catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'Ops! Ocorreu um erro',
+            error: error.message,
+        });
+    }
+};
+
 export default {
     get,
     persist,
     destroy,
+    getColaboradoresOrganizacao,
+    criaColaborador,
 };

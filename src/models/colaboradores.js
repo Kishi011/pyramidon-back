@@ -32,24 +32,28 @@ const Colaboradores = sequelize.define(
             type: DataTypes.STRING(8),
             allowNull: true,
         },
-        bancos: {
+        banco: {
             type: DataTypes.STRING(255),
             allowNull: true,
         },
-        numero_cartao: {
+        numeroCartao: {
+            field: 'numero_cartao',
             type: DataTypes.STRING(16),
             allowNull: true,
         },
-        senha_cartao: {
+        senhaCartao: {
+            field: 'senha_cartao',
             type: DataTypes.INTEGER(),
             allowNull: true,
         },
-        cvv: {
+        senhaSeguranca: {
+            field: 'senha_seguranca',
             type: DataTypes.INTEGER(),
             allowNull: true,
         },
-        vencimento_cartao: {
-            type: DataTypes.INTEGER(),
+        dataVencimentoCartao: {
+            field: 'data_vencimento_cartao',
+            type: DataTypes.DATE,
             allowNull: true,
         },
         

@@ -132,8 +132,58 @@ const destroy = async (req, res) => {
   }
 };
 
+const getOrganizacoesConta = async (req, res) => {
+  try {
+    const idConta = req.params.idConta ? req.params.idConta.toString().replace(/\D/g, '') : null;
+
+    if (!idConta) {
+      return res.status(500).send({
+        type: 'error',
+        message: 'Ops! Ocorreu um erro',
+        error: error.message,
+      });
+    }
+
+    const response = await Organizacoes.findAll({ where: { idConta }, order: [['id', 'ASC']] });
+
+    if (!response) {
+      return res.status(404).send({
+        type: 'error',
+        message: `Nenhum registro associado com a conta ${idConta}`,
+        data: [],
+      });
+    }
+
+    return res.status(200).send({
+      type: 'success',
+      message: 'Registros carregados com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error: error.message,
+    });
+  }
+};
+
+const criaOrganizacao = async (req, res) => {
+  try {
+    return await create(req.body, res);
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error,
+    });
+  }
+};
+
 export default {
   get,
   persist,
   destroy,
+  getOrganizacoesConta,
+  criaOrganizacao,
 };
