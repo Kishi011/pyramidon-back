@@ -135,8 +135,48 @@ const destroy = async (req, res) => {
   }
 };
 
+const alteraStatusAbertoFechado = async (req, res) => {
+  try {
+    const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
+
+    if (!id) {
+      return res.status(200).send({
+        type: 'error',
+        message: 'Informe um id para deletar o registro',
+        data: [],
+      });
+    }
+
+    const response = await Crypto.findOne({ where: { id } });
+
+    if (!response) {
+      return res.status(404).send({
+        type: 'error',
+        message: `Nenhum registro com id ${id} para deletar`,
+        data: [],
+      });
+    }
+
+    response.aberta = !response.aberta;
+    await response.save();
+
+    return response.status(200).send({
+      type: 'success',
+      message: 'Status da moeda alterado com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error: error.message,
+    });
+  }
+};
+
 export default {
   get,
   persist,
   destroy,
+  alteraStatusAbertoFechado,
 };
