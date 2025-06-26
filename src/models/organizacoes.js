@@ -20,6 +20,10 @@ const Organizacoes = sequelize.define(
         key: 'id',
       },
     },
+    nome: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
     emFuncionamento: {
       field: 'em_funcionamento',
       type: DataTypes.BOOLEAN,

@@ -132,8 +132,44 @@ const destroy = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+      return res.status(400).send({
+        type: 'error',
+        message: 'Email ou senha não existem',
+      });
+    }
+
+    const response = await Contas.findOne({ where: { email, senha } });
+
+    if (!response) {
+      return res.status(404).send({
+        type: 'error',
+        message: `Email ou senha incorretos`,
+        data: [],
+      });
+    }
+
+    return res.status(200).send({
+      type: 'success',
+      message: 'Registro carregado com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error: error.message,
+    });
+  }
+};
+
 export default {
   get,
   persist,
   destroy,
+  login,
 };
