@@ -13,20 +13,20 @@ const Contas = sequelize.define(
     },
     nome: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     email: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },    
     senha: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     chaveCrypto: {
       field: 'chave_crypto',
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
