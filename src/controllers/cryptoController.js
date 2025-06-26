@@ -160,12 +160,14 @@ const alteraStatusAbertoFechado = async (req, res) => {
     response.aberta = !response.aberta;
     await response.save();
 
-    return response.status(200).send({
+    return res.status(200).send({
       type: 'success',
       message: 'Status da moeda alterado com sucesso',
       data: response,
     });
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).send({
       type: 'error',
       message: 'Ops! Ocorreu um erro',

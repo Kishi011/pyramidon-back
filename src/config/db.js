@@ -5,7 +5,7 @@ dotenv.config();
 export default new Sequelize(
   'pyramidon_db',
   'postgres',
-  'root',
+  'unochapeco',
   {
     host: 'localhost',
     dialect: 'postgres',
