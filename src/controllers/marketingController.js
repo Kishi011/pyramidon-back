@@ -39,60 +39,63 @@ const get = async (req, res) => {
   }
 };
 
-const create = async (dados, res) => {
-  const {
-    nomeRedeSocial,
-    nomePerfil,
-    arrobaPerfil,
-    linkAcesso,
-    responsavel,
-  } = dados;
+const create = async (req, res) => {
+  try {
+    const idOrganizacao = req.params.idOrganizacao ? req.params.idOrganizacao.toString().replace(/\D/g, '') : null;
 
-  const response = await Marketing.create({
-    nomeRedeSocial,
-    nomePerfil,
-    arrobaPerfil,
-    linkAcesso,
-    responsavel,
-  });
+    const {
+      nomeRedeSocial,
+      nomePerfil,
+      arrobaPerfil,
+      linkAcesso,
+      responsavel,
+    } = req.body;
 
-  return res.status(200).send({
-    type: 'success',
-    message: 'Cadastro realizado com sucesso',
-    data: response,
-  });
-};
+    const response = await Marketing.create({
+      nomeRedeSocial,
+      nomePerfil,
+      arrobaPerfil,
+      linkAcesso,
+      responsavel,
+      idOrganizacao,
+    });
 
-const update = async (id, dados, res) => {
-  const response = await Marketing.findOne({ where: { id } });
-
-  if (!response) {
-    return res.status(404).send({
+    return res.status(200).send({
+      type: 'success',
+      message: 'Cadastro realizado com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
       type: 'error',
-      message: `Nenhum registro com id ${id} para atualizar`,
-      data: [],
+      message: 'Ops! Ocorreu um erro',
+      error,
     });
   }
-
-  Object.keys(dados).forEach((field) => (response[field] = dados[field]));
-
-  await response.save();
-  return res.status(200).send({
-    type: 'success',
-    message: `Registro id ${id} atualizado com sucesso`,
-    data: response,
-  });
 };
 
-const persist = async (req, res) => {
+const update = async (req, res) => {
   try {
     const id = req.params.id ? req.params.id.toString().replace(/\D/g, '') : null;
 
-    if (!id) {
-      return await create(req.body, res);
+    const response = await Marketing.findOne({ where: { id } });
+
+    if (!response) {
+      return res.status(404).send({
+        type: 'error',
+        message: `Nenhum registro com id ${id} para atualizar`,
+        data: [],
+      });
     }
 
-    return await update(id, req.body, res);
+    Object.keys(dados).forEach((field) => (response[field] = dados[field]));
+
+    await response.save();
+    return res.status(200).send({
+      type: 'success',
+      message: `Registro id ${id} atualizado com sucesso`,
+      data: response,
+    });
   } catch (error) {
     return res.status(500).send({
       type: 'error',
@@ -138,8 +141,45 @@ const destroy = async (req, res) => {
   }
 };
 
+const getMarketingOrganizacao = async (req, res) => {
+  try {
+    const idOrganizacao = req.params.idOrganizacao ? req.params.idOrganizacao.toString().replace(/\D/g, '') : null;
+
+    if (!idOrganizacao) {
+      return res.status(400).send({
+        type: 'error',
+        message: 'id da organização não existe!',
+      });
+    }
+
+    const response = await Marketing.findAll({ where: { idOrganizacao }, order: [['id', 'asc']] });
+
+    if (!response) {
+      return res.status(404).send({
+        type: 'error',
+        message: `Nenhum registro com id ${id}`,
+        data: [],
+      });
+    }
+
+    return res.status(200).send({
+      type: 'success',
+      message: 'Registro carregado com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error: error.message,
+    });
+  }
+};
+
 export default {
   get,
-  persist,
+  create,
+  update,
   destroy,
+  getMarketingOrganizacao,
 };

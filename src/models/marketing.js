@@ -32,6 +32,15 @@ const Marketing = sequelize.define(
       field: 'link_acesso',
       allowNull: true,
     },
+    idOrganizacao: {
+      field: 'id_organizacao',
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'organizacoes',
+        key: 'id',
+      },
+    },
     responsavel: {
       type: DataTypes.BIGINT,
       allowNull: false,

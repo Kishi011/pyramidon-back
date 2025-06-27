@@ -154,9 +154,36 @@ const destroy = async (req, res) => {
   }
 };
 
+const getFuncionarioOrganizacao = async (req, res) => {
+  try {
+    const idOrganizacao = req.params.idOrganizacao ? req.params.idOrganizacao.toString().replace(/\D/g, '') : null;
+
+    if(!idOrganizacao) {
+      return res.status(400).send({
+        type: 'error',
+        message: 'id da organização não existe!',
+      });
+    }
+    const response = await Funcionarios.findAll({ where: { idOrganizacao }, order: [['id', 'asc']] });
+
+    return res.status(200).send({
+      type: 'success',
+      message: 'Registros carregados com sucesso',
+      data: response,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      type: 'error',
+      message: 'Ops! Ocorreu um erro',
+      error: error.message,
+    });
+  }
+}
+
 export default {
   get,
   create,
   update,
   destroy,
+  getFuncionarioOrganizacao,
 };
